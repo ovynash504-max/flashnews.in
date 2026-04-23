@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
 <title>FlashNews Pro - Latest India & Tech News 2026</title>
@@ -12,6 +12,8 @@ body{
   background: linear-gradient(135deg,#020617,#0f172a,#020617);
   color:white;
 }
+
+/* HEADER */
 header{
   text-align:center;
   padding:20px;
@@ -19,37 +21,98 @@ header{
   font-weight:bold;
   color:#38bdf8;
 }
+
+/* NAV */
 .nav{text-align:center;}
-.nav a{margin:10px;color:#38bdf8;text-decoration:none;}
-.top-box{text-align:center;margin:20px;}
-input,button{
-  padding:12px;border-radius:30px;border:none;margin:5px;
+.nav a{
+  margin:10px;
+  color:#38bdf8;
+  text-decoration:none;
+  transition:0.3s;
 }
-input{background:rgba(255,255,255,0.08);color:white;}
+.nav a:hover{
+  color:white;
+  text-shadow:0 0 10px #38bdf8;
+}
+
+/* 🔥 SLIDER */
+.slider{
+  background:linear-gradient(90deg,#ff0000,#ff4d4d);
+  padding:12px;
+  text-align:center;
+  font-weight:bold;
+  overflow:hidden;
+}
+#slideText{
+  animation: slide 10s linear infinite;
+}
+@keyframes slide{
+  0%{transform:translateX(100%)}
+  100%{transform:translateX(-100%)}
+}
+
+/* TOP BOX */
+.top-box{
+  text-align:center;
+  margin:20px;
+}
+
+/* INPUT + BUTTON */
+input,button{
+  padding:12px;
+  border-radius:30px;
+  border:none;
+  margin:5px;
+}
+input{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
 button{
   background:linear-gradient(45deg,#38bdf8,#0ea5e9);
-  color:white;cursor:pointer;
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
 }
+button:hover{
+  transform:scale(1.1);
+}
+
+/* GRID */
 .container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;padding:20px;
+  gap:20px;
+  padding:20px;
 }
+
+/* CARD */
 .card{
   background:rgba(255,255,255,0.05);
   border-radius:20px;
   overflow:hidden;
-  cursor:pointer;
   transition:0.3s;
 }
 .card:hover{
-  transform:scale(1.05);
+  transform:translateY(-10px);
 }
-.card img{width:100%;height:180px;object-fit:cover;}
-.card h3{padding:10px;}
-.error{text-align:center;color:red;}
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+.card h3{
+  padding:10px;
+  cursor:pointer;
+}
 
-/* FULL NEWS PAGE */
+/* SHARE */
+.share{
+  text-align:center;
+  padding:10px;
+}
+
+/* FULL NEWS */
 .full{
   padding:20px;
 }
@@ -58,7 +121,12 @@ button{
   border-radius:10px;
 }
 
-footer{text-align:center;padding:20px;background:#000;}
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:#000;
+}
 </style>
 </head>
 
@@ -73,6 +141,11 @@ footer{text-align:center;padding:20px;background:#000;}
 <a href="./contact.html">Contact</a>
 </div>
 
+<!-- 🔥 SLIDER -->
+<div class="slider">
+  <div id="slideText">🚨 Loading Breaking News...</div>
+</div>
+
 <div class="top-box">
 <input type="text" id="search" placeholder="🔍 Search news..."><br>
 <input type="date" id="datePicker">
@@ -83,7 +156,25 @@ footer{text-align:center;padding:20px;background:#000;}
 
 <script>
 
-// 🔥 ALL NEWS DATA
+// 🔥 BREAKING NEWS SLIDER
+const breakingNews = [
+"🔥 India Heatwave Alert जारी",
+"🚀 ISRO नया satellite launch",
+"📈 Stock Market में तेजी",
+"🤖 AI jobs तेजी से बढ़ रही",
+"🌧️ Heavy rain warning जारी"
+];
+
+let bIndex = 0;
+function runSlider(){
+  document.getElementById("slideText").innerText = breakingNews[bIndex];
+  bIndex = (bIndex + 1) % breakingNews.length;
+}
+setInterval(runSlider,3000);
+runSlider();
+
+
+// 🔥 NEWS DATA
 const allNews = {
 "2026-04-23":[
 {title:"India Heatwave 🔥",full:"Temperature 45°C tak pahunch sakta hai.",img:"https://images.unsplash.com/photo-1501973801540-537f08ccae7b"},
@@ -113,16 +204,30 @@ const allNews = {
 function show(data){
   let box=document.getElementById("newsBox");
   box.innerHTML="";
+
   data.forEach((n,i)=>{
     box.innerHTML+=`
-    <div class="card" onclick="openNews(${i})">
-    <img src="${n.img}">
-    <h3>${n.title}</h3>
+    <div class="card">
+
+      <img src="${n.img}">
+      
+      <h3 onclick="openNews(${i})">${n.title}</h3>
+
+      <div class="share">
+        <a href="https://wa.me/?text=${encodeURIComponent(n.title)}" target="_blank" onclick="event.stopPropagation()">
+          <button style="background:#25D366">WhatsApp</button>
+        </a>
+
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}" target="_blank" onclick="event.stopPropagation()">
+          <button style="background:#1877F2">Facebook</button>
+        </a>
+      </div>
+
     </div>`;
   });
 }
 
-// 🔥 OPEN FULL NEWS
+// FULL NEWS
 function openNews(i){
   let date=document.getElementById("datePicker").value;
   let news=allNews[date][i];
@@ -144,7 +249,7 @@ function loadTodayNews(){
   show(allNews[today]);
 }
 
-// SELECT DATE
+// DATE SELECT
 function selectDate(){
   let date=document.getElementById("datePicker").value;
   if(allNews[date]){
@@ -167,7 +272,7 @@ loadTodayNews();
 
 </script>
 
-<footer>Conducted by @OVYNASH.                © 2026 FlashNews Pro</footer>
+<footer>Conducted by @OVYNASH | © 2026 FlashNews Pro</footer>
 
 </body>
 </html>
