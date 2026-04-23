@@ -235,7 +235,7 @@ function show(data){
   data.forEach(n=>{
     box.innerHTML += `
     <div class="card" onclick="openPost(${n.id})">
-      <img src="${n.img}">
+      <img src="${n.img}" alt="${n.title}">
       <h3>${n.title}</h3>
     </div>
     `;
