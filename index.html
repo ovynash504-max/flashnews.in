@@ -3,78 +3,67 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlashNews Pro</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9746035943574680"
-     crossorigin="anonymous"></script>
-<style>
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9746035943574680"
+crossorigin="anonymous"></script>
+
+<style>
 body{
   margin:0;
-  font-family:Arial;
-  background:linear-gradient(to right,#020617,#0f172a);
+  font-family:'Segoe UI',Arial;
+  background:linear-gradient(135deg,#020617,#0f172a);
   color:white;
 }
-
-/* HEADER */
 header{
   text-align:center;
   padding:20px;
-  font-size:28px;
+  font-size:30px;
+  font-weight:bold;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 10px rgba(0,0,0,0.5);
   color:#38bdf8;
 }
-
-/* BREAKING */
 .breaking{
-  background:red;
+  background:linear-gradient(90deg,#ff0000,#ff4d4d);
   padding:10px;
   text-align:center;
   font-weight:bold;
 }
-
-/* SEARCH */
 .search{
   text-align:center;
-  margin:10px;
+  margin:15px;
 }
 .search input{
-  padding:10px;
-  width:80%;
-  border-radius:10px;
+  padding:12px;
+  width:85%;
+  border-radius:25px;
   border:none;
+  background:#111;
+  color:white;
 }
-
-/* CATEGORY */
 .categories{
   text-align:center;
-  margin:10px;
 }
 .categories button{
   margin:5px;
-  padding:8px 12px;
+  padding:10px;
   border:none;
-  border-radius:8px;
+  border-radius:20px;
   background:#38bdf8;
-  cursor:pointer;
+  color:white;
 }
-
-/* GRID */
 .container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:15px;
-  padding:15px;
+  gap:20px;
+  padding:20px;
 }
-
-/* CARD */
 .card{
   background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(10px);
-  border-radius:15px;
+  border-radius:20px;
   overflow:hidden;
   cursor:pointer;
-  transition:0.3s;
-}
-.card:hover{
-  transform:scale(1.05);
 }
 .card img{
   width:100%;
@@ -82,35 +71,21 @@ header{
   object-fit:cover;
 }
 .card h3{
-  padding:10px;
+  padding:15px;
 }
-
-/* ADS */
-.ads{
-  background:#111;
-  text-align:center;
-  padding:20px;
-  margin:10px;
-  border:1px dashed gray;
-}
-
-/* FULL PAGE */
 .full{
   padding:20px;
 }
 .full img{
   width:100%;
-  border-radius:10px;
 }
-
 </style>
 </head>
 
 <body>
 
 <header>FlashNews Pro 🚀</header>
-
-<div class="breaking">🚨 Breaking: Latest updates live</div>
+<div class="breaking">🚨 Breaking News Live</div>
 
 <div class="search">
 <input type="text" id="search" placeholder="Search news...">
@@ -122,19 +97,31 @@ header{
 <button onclick="filter('tech')">Tech</button>
 </div>
 
-<div class="ads">💰 Your Ad Here (AdSense)</div>
-
 <div class="container" id="newsBox"></div>
 
 <script>
 
 const newsData = [
 
-{ id:1, cat:"india", title:"India Update 🚨", full:"Government ne naya decision liya hai jo economy ko impact karega.", img:"https://images.unsplash.com/photo-1504711434969-e33886168f5c"},
+{ id:1, cat:"india", title:"India New Policy 🇮🇳", full:"Government ne aaj ek naya decision liya jo economy aur jobs pe impact karega. Experts ka kehna hai ye future growth ke liye important step hai.", img:"https://images.unsplash.com/photo-1524492412937-b28074a5d7da"},
 
-{ id:2, cat:"tech", title:"AI Growth 🤖", full:"AI tools fast grow kar rahe hain aur industries change ho rahi hain.", img:"https://images.unsplash.com/photo-1518770660439-4636190af475"},
+{ id:2, cat:"tech", title:"AI Boom 🤖", full:"Artificial Intelligence ka use rapidly badh raha hai aur industries me bada change la raha hai.", img:"https://images.unsplash.com/photo-1677442136019-21780ecad995"},
 
-{ id:3, cat:"tech", title:"Smartphone Launch 📱", full:"New phones better camera aur performance ke saath aa rahe hain.", img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"}
+{ id:3, cat:"india", title:"Weather Alert 🌧️", full:"Heavy rainfall ka alert diya gaya hai aur logon ko safe rehne ki salah di gayi hai.", img:"https://images.unsplash.com/photo-1500673922987-e212871fec22"},
+
+{ id:4, cat:"tech", title:"New Phone Launch 📱", full:"Ek powerful smartphone launch hua hai jisme strong camera aur battery di gayi hai.", img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+
+{ id:5, cat:"india", title:"Stock Market 📈", full:"Market me aaj utar-chadhav dekhne ko mila, investors alert hain.", img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3"},
+
+{ id:6, cat:"tech", title:"Cyber Alert 🔐", full:"Online fraud badh rahe hain, users ko alert rehne ki salah di gayi hai.", img:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b"},
+
+{ id:7, cat:"india", title:"Education Change 📚", full:"Students ke liye naye rules aur syllabus update kiya gaya hai.", img:"https://images.unsplash.com/photo-1584697964190-7383c6f0a3a7"},
+
+{ id:8, cat:"tech", title:"Space News 🚀", full:"New space mission successful raha aur future research ke liye important hai.", img:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"},
+
+{ id:9, cat:"india", title:"Jobs Update 💼", full:"IT sector me jobs increase ho rahi hain aur freshers ke liye chances badh rahe hain.", img:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d"},
+
+{ id:10, cat:"tech", title:"Future Tech 🔥", full:"AI aur blockchain future ko completely change kar sakte hain.", img:"https://images.unsplash.com/photo-1518770660439-4636190af475"}
 
 ];
 
