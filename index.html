@@ -130,8 +130,7 @@ function show(data){
   let box = document.getElementById("newsBox");
   box.innerHTML = "";
   data.forEach((n,i)=>{
-   box.innerHTML += `
-<div class="card" onclick="openNews(${i})">
+   box.innerHTML += `<div class="card" onclick="openNews(${i})">
   <img src="${n.img}">
   <h3>${n.title}</h3>
 </div>`;
