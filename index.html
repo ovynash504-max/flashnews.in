@@ -6,123 +6,98 @@
 <title>Flash News Pro</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#111;
-    color:white;
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #000;
+  color: white;
 }
-header{
-    background:red;
-    padding:15px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
+
+header {
+  background: red;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }
-#newsBox{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:10px;
-    padding:10px;
+
+#newsBox {
+  padding: 10px;
 }
-.card{
-    background:#222;
-    padding:10px;
-    border-radius:10px;
-    cursor:pointer;
+
+.card {
+  background: #111;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
 }
-.card img{
-    width:100%;
-    border-radius:10px;
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
 }
-#fullView{
-    display:none;
-    padding:10px;
+
+.card h3 {
+  font-size: 18px;
 }
-button{
-    padding:10px;
-    border:none;
-    background:red;
-    color:white;
-    border-radius:5px;
+
+.card p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.card a {
+  color: cyan;
+  text-decoration: none;
 }
 </style>
-
 </head>
+
 <body>
 
 <header>🔥 Flash News Pro</header>
 
 <div id="newsBox">⏳ Loading...</div>
-<div id="fullView"></div>
 
 <script>
+const API_KEY = "cdd8963cca2514a2bd516fa75bb6baaf";
 
-let currentData = [];
+async function loadNews() {
+  const box = document.getElementById("newsBox");
+  box.innerHTML = "⏳ Loading...";
 
-function show(data){
-    currentData = data;
-    let box = document.getElementById("newsBox");
+  try {
+    const url = `https://gnews.io/api/v4/top-headlines?country=in&lang=en&max=10&apikey=${API_KEY}`;
+    
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.articles) {
+      box.innerHTML = "❌ No news found";
+      return;
+    }
+
     box.innerHTML = "";
 
-    data.forEach((n,i)=>{
-        box.innerHTML += `
-        <div class="card" onclick="openNews(${i})">
-            <img src="${n.img}">
-            <h3>${n.title}</h3>
-        </div>`;
+    data.articles.forEach(n => {
+      box.innerHTML += `
+        <div class="card">
+          <img src="${n.image || 'https://via.placeholder.com/300'}">
+          <h3>${n.title}</h3>
+          <p>${n.description || "No details available"}</p>
+          <a href="${n.url}" target="_blank">Read More</a>
+        </div>
+      `;
     });
+
+  } catch (err) {
+    box.innerHTML = "❌ Failed to load news";
+    console.log(err);
+  }
 }
 
-function openNews(i){
-    let n = currentData[i];
-
-    document.getElementById("newsBox").style.display="none";
-    let full = document.getElementById("fullView");
-    full.style.display="block";
-
-    full.innerHTML = `
-    <button onclick="goBack()">⬅ Back</button>
-    <h2>${n.title}</h2>
-    <img src="${n.img}" style="width:100%">
-    <p>${n.full}</p>
-    `;
-}
-
-function goBack(){
-    document.getElementById("fullView").style.display="none";
-    document.getElementById("newsBox").style.display="grid";
-}
-
-
-// 🔥 LOAD NEWS (FIXED)
-function loadNews(){
-
-document.getElementById("newsBox").innerHTML="⏳ Loading...";
-
-fetch("https://api.allorigins.win/raw?url=https://gnews.io/api/v4/top-headlines?country=in&lang=en&apikey=cdd8963cca2514a2bd516fa75bb6baaf")
-.then(res=>res.json())
-.then(data=>{
-
-    let articles = data.articles;
-
-    let formatted = articles.map(n=>({
-        title:n.title,
-        img:n.image || "https://via.placeholder.com/300",
-        full:n.description || "No details available"
-    }));
-
-    show(formatted);
-
-})
-.catch(()=>{
-    document.getElementById("newsBox").innerHTML="❌ Failed to load news";
-});
-
-}
-
+// AUTO LOAD
 loadNews();
-
 </script>
 
 </body>
