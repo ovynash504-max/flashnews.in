@@ -181,7 +181,7 @@ function loadNewsByDate(){
 
     let formatted = articles.map(n => ({
       title: n.title,
-      img: n.image,
+      img: n.image ||8 "https://via.placeholder.com/300",
       full: n.description || "No details available"
     }));
 
