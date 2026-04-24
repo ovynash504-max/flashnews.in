@@ -4,6 +4,7 @@
 <title>FlashNews Pro - Latest India & Tech News 2026</title>
 
 <meta name="description" content="Latest India and Tech News daily.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
@@ -16,8 +17,8 @@ body{
 /* HEADER */
 header{
   text-align:center;
-  padding:20px;
-  font-size:32px;
+  padding:15px;
+  font-size:28px;
   font-weight:bold;
   color:#38bdf8;
 }
@@ -25,39 +26,35 @@ header{
 /* NAV */
 .nav{text-align:center;}
 .nav a{
-  margin:10px;
+  margin:8px;
   color:#38bdf8;
   text-decoration:none;
-}
-.nav a:hover{
-  color:white;
-  text-shadow:0 0 10px #38bdf8;
+  font-size:14px;
 }
 
 /* SLIDER */
 .slider{
   background:linear-gradient(90deg,#ff0000,#ff4d4d);
-  padding:12px;
+  padding:10px;
   text-align:center;
-  font-weight:bold;
+  font-size:14px;
 }
 
 /* TOP BOX */
 .top-box{
   text-align:center;
-  margin:20px;
+  margin:15px;
 }
 
 input,button{
-  padding:12px;
-  border-radius:30px;
+  padding:10px;
+  border-radius:25px;
   border:none;
   margin:5px;
+  width:80%;
+  max-width:300px;
 }
-input{
-  background:rgba(255,255,255,0.08);
-  color:white;
-}
+
 button{
   background:linear-gradient(45deg,#38bdf8,#0ea5e9);
   color:white;
@@ -67,43 +64,51 @@ button{
 /* GRID */
 .container{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  padding:20px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  padding:15px;
 }
 
 /* CARD */
 .card{
   background:rgba(255,255,255,0.05);
-  border-radius:20px;
+  border-radius:15px;
   overflow:hidden;
+  cursor:pointer;
   transition:0.3s;
 }
 .card:hover{
-  transform:translateY(-10px);
+  transform:scale(1.03);
 }
 .card img{
   width:100%;
-  height:180px;
+  height:140px;
   object-fit:cover;
 }
 .card h3{
   padding:10px;
-  cursor:pointer;
+  font-size:15px;
 }
 
 /* FULL */
 .full{
-  padding:20px;
+  padding:15px;
 }
 .full img{
   width:100%;
   border-radius:10px;
 }
 
+/* MOBILE */
+@media(max-width:500px){
+  header{font-size:22px;}
+  .card h3{font-size:14px;}
+}
+
+/* FOOTER */
 footer{
   text-align:center;
-  padding:20px;
+  padding:15px;
   background:#000;
 }
 </style>
@@ -132,7 +137,7 @@ footer{
 
 <script>
 
-// 🔥 SLIDER
+// SLIDER
 const breakingNews = [
 "🔥 India Heatwave Alert",
 "🚀 ISRO Satellite Launch",
@@ -147,27 +152,25 @@ setInterval(()=>{
   bIndex = (bIndex+1)%breakingNews.length;
 },3000);
 
-
-// 🧠 STORE CURRENT NEWS
+// STORE
 let currentData = [];
 
-// SHOW NEWS
+// SHOW
 function show(data){
   currentData = data;
-
   let box = document.getElementById("newsBox");
   box.innerHTML="";
 
   data.forEach((n,i)=>{
     box.innerHTML+=`
-    <div class="card">
+    <div class="card" onclick="openNews(${i})">
       <img src="${n.img}">
-      <h3 onclick="openNews(${i})">${n.title}</h3>
+      <h3>${n.title}</h3>
     </div>`;
   });
 }
 
-// OPEN FULL NEWS
+// FULL NEWS
 function openNews(i){
   let n = currentData[i];
 
@@ -181,19 +184,48 @@ function openNews(i){
   </div>`;
 }
 
-// LOAD NEWS BY DATE
+// DATE FORMAT FIX
+function formatDate(date){
+  let d = new Date(date);
+  let year = d.getFullYear();
+  let month = String(d.getMonth()+1).padStart(2,'0');
+  let day = String(d.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+// LOAD NEWS
 function loadNewsByDate(date){
-  fetch("news/" + date + ".json")
-  .then(res=>res.json())
-  .then(data=>show(data))
+
+  let fixedDate = formatDate(date);
+
+  fetch("news/" + fixedDate + ".json?nocache=" + new Date().getTime())
+  .then(res => {
+    if(!res.ok) throw "no";
+    return res.json();
+  })
+  .then(data => show(data))
   .catch(()=>{
-    document.getElementById("newsBox").innerHTML="❌ No news for this date";
+
+    let d = new Date(date);
+    d.setDate(d.getDate()-1);
+    let y = formatDate(d);
+
+    fetch("news/" + y + ".json?nocache=" + new Date().getTime())
+    .then(res=>res.json())
+    .then(data=>{
+      show(data);
+      document.getElementById("newsBox").innerHTML +=
+      "<p style='text-align:center;color:orange'>⚠ Showing previous news</p>";
+    })
+    .catch(()=>{
+      document.getElementById("newsBox").innerHTML="❌ No news available";
+    });
   });
 }
 
-// TODAY AUTO LOAD
+// TODAY AUTO
 function loadTodayNews(){
-  let today = new Date().toISOString().split('T')[0];
+  let today = formatDate(new Date());
   document.getElementById("datePicker").value = today;
   loadNewsByDate(today);
 }
@@ -201,6 +233,10 @@ function loadTodayNews(){
 // SELECT DATE
 function selectDate(){
   let date = document.getElementById("datePicker").value;
+  if(!date){
+    alert("Select date first");
+    return;
+  }
   loadNewsByDate(date);
 }
 
@@ -208,9 +244,8 @@ function selectDate(){
 document.getElementById("search").addEventListener("input",e=>{
   let val = e.target.value.toLowerCase();
   let cards = document.querySelectorAll(".card");
-
   cards.forEach(c=>{
-    c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
+    c.style.display = c.innerText.toLowerCase().includes(val) ? "block":"none";
   });
 });
 
