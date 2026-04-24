@@ -102,7 +102,7 @@ footer{text-align:center;padding:15px;background:#000;}
 </div>
 <div id="featured"></div>
 <div class="container" id="newsBox"></div>
-<div id="fullView" style="display:none;"></div>
+<div id="fullView" style"display:none;"></div>
 
 <script>
 
@@ -171,36 +171,30 @@ function formatDate(date){
 }
 
 // LOAD NEWS
-function loadNewsByDate(date){
+function loadNewsByDate(){
 
-  let fixedDate = formatDate(date);
-document.getElementById("newsBox").innerHTML = "⏳ Loading news...";
-  fetch("news/" + fixedDate + ".json?nocache=" + new Date().getTime())
-  .then(res => {
-    if(!res.ok) throw "no";
-    return res.json();
+  document.getElementById("newsBox").innerHTML = "⏳ Loading news...";
+
+  fetch("https://gnews.io/api/v4/top-headlines?country=in&lang=en&apikey=YOUR_API_KEY")
+  .then(res => res.json())
+  .then(data => {
+
+    let articles = data.articles;
+
+    let formatted = articles.map(n => ({
+      title: n.title,
+      img: n.image,
+      full: n.description || "No details available"
+    }));
+
+    show(formatted);
+
   })
-  .then(data => show(data))
   .catch(()=>{
-
-    let d = new Date(date);
-    d.setDate(d.getDate()-1);
-    let y = formatDate(d);
-
-    fetch("news/" + y + ".json?nocache=" + new Date().getTime())
-    .then(res=>res.json())
-    .then(data=>{
-      show(data);
-      document.getElementById("newsBox").innerHTML +=
-      "<p style='text-align:center;color:orange'>⚠ Showing previous news</p>";
-    })
-    .catch(()=>{
-      document.getElementById("newsBox").innerHTML = `
-<div style="text-align:center;padding:20px">
-  <h2>⚠ No News Found</h2>
-  <p>Check your internet or try another date</p>
-</div>`;
-    });
+    document.getElementById("newsBox").innerHTML = "❌ Failed to load news";
+  });
+    }
+  
   });
 }
 
