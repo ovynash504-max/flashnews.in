@@ -174,7 +174,7 @@ function formatDate(date){
 function loadNewsByDate(date){
 
   let fixedDate = formatDate(date);
-
+document.getElementById("newsBox").innerHTML = "⏳ Loading news...";
   fetch("news/" + fixedDate + ".json?nocache=" + new Date().getTime())
   .then(res => {
     if(!res.ok) throw "no";
