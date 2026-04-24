@@ -240,8 +240,6 @@ function loadTodayNews(){
          }
 
 }
-
-// SELECT DATE
 function selectDate(){
   let date = document.getElementById("datePicker").value;
   if(!date){
@@ -249,6 +247,8 @@ function selectDate(){
     return;
   }
   loadNewsByDate(date);
+}
+
 }
 
 // SEARCH
