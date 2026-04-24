@@ -174,14 +174,23 @@ function show(data){
 function openNews(i){
   let n = currentData[i];
 
-  document.body.innerHTML=`
-  <div class="full">
-    <h1>${n.title}</h1>
-    <img src="${n.img}">
-    <p>${n.full}</p>
-    <br><br>
-    <button onclick="location.reload()">⬅ Back</button>
-  </div>`;
+  document.getElementById("fullView").style.display = "block";
+  document.getElementById("newsBox").style.display = "none";
+
+  document.getElementById("fullView").innerHTML = `
+    <div class="full">
+      <button onclick="goBack()">⬅ Back</button>
+      <h1>${n.title}</h1>
+      <img src="${n.img}">
+      <p>${n.full}</p>
+    </div>
+  `;
+}
+
+function goBack(){
+  document.getElementById("fullView").style.display = "none";
+  document.getElementById("newsBox").style.display = "grid";
+}
 }
 
 // DATE FORMAT FIX
