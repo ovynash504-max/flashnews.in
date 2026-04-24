@@ -28,27 +28,18 @@ header{
   margin:10px;
   color:#38bdf8;
   text-decoration:none;
-  transition:0.3s;
 }
 .nav a:hover{
   color:white;
   text-shadow:0 0 10px #38bdf8;
 }
 
-/* 🔥 SLIDER */
+/* SLIDER */
 .slider{
   background:linear-gradient(90deg,#ff0000,#ff4d4d);
   padding:12px;
   text-align:center;
   font-weight:bold;
-  overflow:hidden;
-}
-#slideText{
-  animation: slide 10s linear infinite;
-}
-@keyframes slide{
-  0%{transform:translateX(100%)}
-  100%{transform:translateX(-100%)}
 }
 
 /* TOP BOX */
@@ -57,7 +48,6 @@ header{
   margin:20px;
 }
 
-/* INPUT + BUTTON */
 input,button{
   padding:12px;
   border-radius:30px;
@@ -72,10 +62,6 @@ button{
   background:linear-gradient(45deg,#38bdf8,#0ea5e9);
   color:white;
   cursor:pointer;
-  transition:0.3s;
-}
-button:hover{
-  transform:scale(1.1);
 }
 
 /* GRID */
@@ -106,13 +92,7 @@ button:hover{
   cursor:pointer;
 }
 
-/* SHARE */
-.share{
-  text-align:center;
-  padding:10px;
-}
-
-/* FULL NEWS */
+/* FULL */
 .full{
   padding:20px;
 }
@@ -121,7 +101,6 @@ button:hover{
   border-radius:10px;
 }
 
-/* FOOTER */
 footer{
   text-align:center;
   padding:20px;
@@ -141,10 +120,7 @@ footer{
 <a href="./contact.html">Contact</a>
 </div>
 
-<!-- 🔥 SLIDER -->
-<div class="slider">
-  <div id="slideText">🚨 Loading Breaking News...</div>
-</div>
+<div class="slider" id="slideText">🚨 Breaking News...</div>
 
 <div class="top-box">
 <input type="text" id="search" placeholder="🔍 Search news..."><br>
@@ -156,115 +132,85 @@ footer{
 
 <script>
 
-// 🔥 BREAKING NEWS SLIDER
+// 🔥 SLIDER
 const breakingNews = [
-"🔥 India Heatwave Alert जारी",
-"🚀 ISRO नया satellite launch",
-"📈 Stock Market में तेजी",
-"🤖 AI jobs तेजी से बढ़ रही",
-"🌧️ Heavy rain warning जारी"
+"🔥 India Heatwave Alert",
+"🚀 ISRO Satellite Launch",
+"📈 Stock Market Rise",
+"🤖 AI Jobs Increase",
+"🌧️ Rain Warning"
 ];
 
 let bIndex = 0;
-function runSlider(){
+setInterval(()=>{
   document.getElementById("slideText").innerText = breakingNews[bIndex];
-  bIndex = (bIndex + 1) % breakingNews.length;
-}
-setInterval(runSlider,3000);
-runSlider();
+  bIndex = (bIndex+1)%breakingNews.length;
+},3000);
 
 
-// 🔥 NEWS DATA
-const allNews = {
-"2026-04-23":[
-{title:"India Heatwave 🔥",full:"Temperature 45°C tak pahunch sakta hai.",img:"https://images.unsplash.com/photo-1501973801540-537f08ccae7b"},
-{title:"ISRO Mission 🚀",full:"New satellite launch announce.",img:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"},
-{title:"Stock Market 📈",full:"Sensex me tezi.",img:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3"},
-{title:"AI Boom 🤖",full:"AI jobs badh rahe hain.",img:"https://images.unsplash.com/photo-1677442136019-21780ecad995"},
-{title:"Cyber Alert 🔐",full:"Online fraud cases badh rahe hain.",img:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b"},
-{title:"Rain Alert 🌧️",full:"Heavy rainfall warning.",img:"https://images.unsplash.com/photo-1500673922987-e212871fec22"},
-{title:"New Phone 📱",full:"Flagship smartphone launch.",img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
-{title:"Education 📚",full:"New policy introduce.",img:"https://images.unsplash.com/photo-1523240795612-9a054b0db644"},
-{title:"Jobs 💼",full:"IT jobs demand high.",img:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d"},
-{title:"Space 🌌",full:"New discovery.",img:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa"},
-{title:"EV Growth ⚡",full:"Electric vehicles demand badh rahi hai.",img:"https://images.unsplash.com/photo-1511396275271-7c1cfe3b8b7c"},
-{title:"Petrol Price ⛽",full:"Fuel price update.",img:"https://images.unsplash.com/photo-1581091870627-3e7e7d0f8f5b"},
-{title:"Bank Update 🏦",full:"New banking rules.",img:"https://images.unsplash.com/photo-1565372911440-3a7d1d2c7e6f"},
-{title:"Internet Speed 🌐",full:"5G expand ho raha hai.",img:"https://images.unsplash.com/photo-1519389950473-47ba0277781c"},
-{title:"Startup Funding 💰",full:"Startups ko funding mil rahi hai.",img:"https://images.unsplash.com/photo-1553729784-e91953dec042"},
-{title:"Health Alert 🏥",full:"Garmi se health issue badh rahe hain.",img:"https://images.unsplash.com/photo-1588776814546-1ffcf47267a5"},
-{title:"Travel Rush ✈️",full:"Holiday travel badh raha hai.",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
-{title:"Cricket 🏏",full:"Match me exciting performance.",img:"https://images.unsplash.com/photo-1505842465776-3ac1c7c9b38a"},
-{title:"Food Price 🍲",full:"Sabzi mehengi ho rahi hai.",img:"https://images.unsplash.com/photo-1498837167922-ddd27525d352"},
-{title:"Future Tech 🔥",full:"AI aur blockchain future hai.",img:"https://images.unsplash.com/photo-1518770660439-4636190af475"}
-]
-};
+// 🧠 STORE CURRENT NEWS
+let currentData = [];
 
-// SHOW
+// SHOW NEWS
 function show(data){
-  let box=document.getElementById("newsBox");
+  currentData = data;
+
+  let box = document.getElementById("newsBox");
   box.innerHTML="";
 
   data.forEach((n,i)=>{
     box.innerHTML+=`
     <div class="card">
-
       <img src="${n.img}">
-      
       <h3 onclick="openNews(${i})">${n.title}</h3>
-
-      <div class="share">
-        <a href="https://wa.me/?text=${encodeURIComponent(n.title)}" target="_blank" onclick="event.stopPropagation()">
-          <button style="background:#25D366">WhatsApp</button>
-        </a>
-
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}" target="_blank" onclick="event.stopPropagation()">
-          <button style="background:#1877F2">Facebook</button>
-        </a>
-      </div>
-
     </div>`;
   });
 }
 
-// FULL NEWS
+// OPEN FULL NEWS
 function openNews(i){
-  let date=document.getElementById("datePicker").value;
-  let news=allNews[date][i];
+  let n = currentData[i];
 
   document.body.innerHTML=`
   <div class="full">
-    <h1>${news.title}</h1>
-    <img src="${news.img}">
-    <p>${news.full}</p>
+    <h1>${n.title}</h1>
+    <img src="${n.img}">
+    <p>${n.full}</p>
     <br><br>
     <button onclick="location.reload()">⬅ Back</button>
   </div>`;
 }
 
-// LOAD TODAY
-function loadTodayNews(){
-  let today="2026-04-23";
-  document.getElementById("datePicker").value=today;
-  show(allNews[today]);
+// LOAD NEWS BY DATE
+function loadNewsByDate(date){
+  fetch("news/" + date + ".json")
+  .then(res=>res.json())
+  .then(data=>show(data))
+  .catch(()=>{
+    document.getElementById("newsBox").innerHTML="❌ No news for this date";
+  });
 }
 
-// DATE SELECT
+// TODAY AUTO LOAD
+function loadTodayNews(){
+  let today = new Date().toISOString().split('T')[0];
+  document.getElementById("datePicker").value = today;
+  loadNewsByDate(today);
+}
+
+// SELECT DATE
 function selectDate(){
-  let date=document.getElementById("datePicker").value;
-  if(allNews[date]){
-    show(allNews[date]);
-  }else{
-    document.getElementById("newsBox").innerHTML="❌ No news";
-  }
+  let date = document.getElementById("datePicker").value;
+  loadNewsByDate(date);
 }
 
 // SEARCH
 document.getElementById("search").addEventListener("input",e=>{
-  let val=e.target.value.toLowerCase();
-  let cards=document.querySelectorAll(".card");
+  let val = e.target.value.toLowerCase();
+  let cards = document.querySelectorAll(".card");
+
   cards.forEach(c=>{
-    c.style.display=c.innerText.toLowerCase().includes(val)?"block":"none";
+    c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
   });
 });
 
@@ -272,7 +218,7 @@ loadTodayNews();
 
 </script>
 
-<footer>Conducted by @OVYNASH | © 2026 FlashNews Pro</footer>
+<footer>© 2026 FlashNews Pro</footer>
 
 </body>
 </html>
