@@ -241,7 +241,7 @@ function loadTodayNews(){
  function tryLoad(date){
    let f = formatDate(date);
 
-   fetch("news/" + f + ".json")
+  fetch("news/" + f + ".json?nocache=" + new Date().getTime())
    .then(res=>{
      if(res.ok){
        document.getElementById("datePicker").value = f;
