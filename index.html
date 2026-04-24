@@ -233,7 +233,20 @@ function loadNewsByDate(date){
     });
   });
 }
-function loadTodayNews(){
+function show(data){
+  let box = document.getElementById("newsBox");
+  box.innerHTML = "";
+
+  data.forEach((n)=>{
+    box.innerHTML += `
+      <div class="card">
+        <img src="${n.img}">
+        <h3>${n.title}</h3>
+      </div>
+    `;
+  });
+}
+  function loadTodayNews(){
   let today = formatDate(new Date());
   document.getElementById("datePicker").value = today;
   loadNewsByDate(today);
