@@ -233,27 +233,12 @@ function loadNewsByDate(date){
     });
   });
 }
-
-// TODAY AUTO
 function loadTodayNews(){
- let d = new Date();
+  let today = formatDate(new Date());
+  document.getElementById("datePicker").value = today;
+  loadNewsByDate(today);
+         }
 
- function tryLoad(date){
-   let f = formatDate(date);
-
-  fetch("news/" + f + ".json?nocache=" + new Date().getTime())
-   .then(res=>{
-     if(res.ok){
-       document.getElementById("datePicker").value = f;
-       loadNewsByDate(f);
-     } else {
-       date.setDate(date.getDate()-1);
-       tryLoad(date);
-     }
-   })
- }
-
- tryLoad(d);
 }
 
 // SELECT DATE
