@@ -1,104 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
+<title>FlashNews Pro - Latest India & Tech News 2026</title>
+
+<meta name="description" content="Latest India and Tech News daily.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flash News Pro</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #000;
-  color: white;
+body{
+  margin:0;
+  font-family:'Poppins',Arial;
+  background: linear-gradient(135deg,#020617,#0f172a,#020617);
+  color:white;
 }
 
-header {
-  background: red;
-  padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+header{
+  text-align:center;
+  padding:15px;
+  font-size:28px;
+  font-weight:bold;
+  color:#38bdf8;
 }
 
-#newsBox {
-  padding: 10px;
+.nav{text-align:center;}
+.nav a{
+  margin:8px;
+  color:#38bdf8;
+  text-decoration:none;
+  font-size:14px;
 }
 
-.card {
-  background: #111;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px;
+.slider{
+  background:linear-gradient(90deg,#ff0000,#ff4d4d);
+  padding:10px;
+  text-align:center;
 }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
+.top-box{text-align:center;margin:15px;}
+
+input,button{
+  padding:10px;
+  border-radius:25px;
+  border:none;
+  margin:5px;
+  width:80%;
+  max-width:300px;
 }
 
-.card h3 {
-  font-size: 18px;
+button{
+  background:linear-gradient(45deg,#38bdf8,#0ea5e9);
+  color:white;
+  cursor:pointer;
 }
 
-.card p {
-  font-size: 14px;
-  color: #ccc;
+.container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  padding:15px;
 }
 
-.card a {
-  color: cyan;
-  text-decoration: none;
+.card{
+  background:rgba(255,255,255,0.05);
+  border-radius:15px;
+  overflow:hidden;
+  cursor:pointer;
 }
+
+.card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+}
+
+.card h3{padding:10px;font-size:15px;}
+
+.full{padding:15px;}
+.full img{width:100%;border-radius:10px;}
+
+footer{text-align:center;padding:15px;background:#000;}
 </style>
 </head>
 
 <body>
 
-<header>🔥 Flash News Pro</header>
+<header>FlashNews Pro 🚀</header>
 
-<div id="newsBox">⏳ Loading...</div>
+<div class="nav">
+<a href="#">Home</a>
+<a href="#">About</a>
+<a href="#">Privacy</a>
+<a href="#">Contact</a>
+</div>
+
+<div class="slider" id="slideText">🚨 Breaking News...</div>
+
+<div class="top-box">
+<input type="text" id="search" placeholder="🔍 Search news..."><br>
+<input type="date" id="datePicker">
+<button onclick="selectDate()">Load News</button>
+</div>
+
+<div class="container" id="newsBox"></div>
+<div id="fullView" style="display:none;"></div>
 
 <script>
-const API_KEY = "cdd8963cca2514a2bd516fa75bb6baaf";
 
-async function loadNews() {
-  const box = document.getElementById("newsBox");
-  box.innerHTML = "⏳ Loading...";
+// SLIDER
+const breakingNews = [
+"🔥 India Heatwave Alert",
+"🚀 ISRO Satellite Launch",
+"📈 Stock Market Rise",
+"🤖 AI Jobs Increase",
+"🌧️ Rain Warning"
+];
 
-  try {
-    const url = `https://gnews.io/api/v4/top-headlines?country=in&lang=en&max=10&apikey=${API_KEY}`;
-    
-    const res = await fetch(url);
-    const data = await res.json();
+let bIndex = 0;
+setInterval(()=>{
+  document.getElementById("slideText").innerText = breakingNews[bIndex];
+  bIndex = (bIndex+1)%breakingNews.length;
+},3000);
 
-    if (!data.articles) {
-      box.innerHTML = "❌ No news found";
-      return;
-    }
+// STORE
+let currentData = [];
 
-    box.innerHTML = "";
+// SHOW (ONLY ONE FUNCTION)
+function show(data){
+  currentData = data;
+  let box = document.getElementById("newsBox");
+  box.innerHTML="";
 
-    data.articles.forEach(n => {
-      box.innerHTML += `
-        <div class="card">
-          <img src="${n.image || 'https://via.placeholder.com/300'}">
-          <h3>${n.title}</h3>
-          <p>${n.description || "No details available"}</p>
-          <a href="${n.url}" target="_blank">Read More</a>
-        </div>
-      `;
-    });
-
-  } catch (err) {
-    box.innerHTML = "❌ Failed to load news";
-    console.log(err);
-  }
+  data.forEach((n,i)=>{
+    box.innerHTML+=`
+    <div class="card" onclick="openNews(${i})">
+      <img src="${n.img}">
+      <h3>${n.title}</h3>
+    </div>`;
+  });
 }
 
-// AUTO LOAD
-loadNews();
+// FULL NEWS
+function openNews(i){
+  let n = currentData[i];
+
+  document.getElementById("fullView").style.display = "block";
+  document.getElementById("newsBox").style.display = "none";
+
+  document.getElementById("fullView").innerHTML = `
+    <div class="full">
+      <button onclick="goBack()">⬅ Back</button>
+      <h1>${n.title}</h1>
+      <img src="${n.img}">
+      <p>${n.full}</p>
+    </div>
+  `;
+}
+
+function goBack(){
+  document.getElementById("fullView").style.display = "none";
+  document.getElementById("newsBox").style.display = "grid";
+}
+
+// DATE FORMAT
+function formatDate(date){
+  let d = new Date(date);
+  let year = d.getFullYear();
+  let month = String(d.getMonth()+1).padStart(2,'0');
+  let day = String(d.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+// LOAD NEWS
+function loadNewsByDate(date){
+
+  let fixedDate = formatDate(date);
+
+  fetch("news/" + fixedDate + ".json?nocache=" + new Date().getTime())
+  .then(res => {
+    if(!res.ok) throw "no";
+    return res.json();
+  })
+  .then(data => show(data))
+  .catch(()=>{
+
+    let d = new Date(date);
+    d.setDate(d.getDate()-1);
+    let y = formatDate(d);
+
+    fetch("news/" + y + ".json?nocache=" + new Date().getTime())
+    .then(res=>res.json())
+    .then(data=>{
+      show(data);
+      document.getElementById("newsBox").innerHTML +=
+      "<p style='text-align:center;color:orange'>⚠ Showing previous news</p>";
+    })
+    .catch(()=>{
+      document.getElementById("newsBox").innerHTML="❌ No news available";
+    });
+  });
+}
+
+// TODAY AUTO LOAD
+function loadTodayNews(){
+  let today = formatDate(new Date());
+  document.getElementById("datePicker").value = today;
+  loadNewsByDate(today);
+}
+
+// SELECT DATE
+function selectDate(){
+  let input = document.getElementById("datePicker").value;
+
+  if(!input){
+    alert("Select date first");
+    return;
+  }
+
+  loadNewsByDate(input);
+}
+
+// SEARCH
+document.getElementById("search").addEventListener("input",e=>{
+  let val = e.target.value.toLowerCase();
+  let cards = document.querySelectorAll(".card");
+  cards.forEach(c=>{
+    c.style.display = c.innerText.toLowerCase().includes(val) ? "block":"none";
+  });
+});
+
+// START
+loadTodayNews();
+
 </script>
 
+<footer>© 2026 FlashNews Pro ~~∆~~ by OVYNASH</footer>
+
 </body>
-</html>
+</html><!DOCTYPE html
