@@ -174,8 +174,22 @@ function loadNewsByDate(){
   document.getElementById("newsBox").innerHTML = "⏳ Loading news...";
 
   fetch("https://api.allorigins.win/raw?url=https://gnews.io/api/v4/top-headlines?country=in&lang=en&apikey=974ef3eda2e98ea33f5e7a67358428b4")
-  .then(res => res.json())
-  .then(data => {
+.then(res => res.json())
+.then(data => {
+
+    let articles = data.articles;
+
+    let formatted = articles.map(n => ({
+        title: n.title,
+        img: n.image || "https://via.placeholder.com/300",
+        full: n.description || "No details available"
+    }));
+
+    show(formatted);
+})
+.catch(() => {
+    document.getElementById("newsBox").innerHTML = "❌ Failed to load news";
+}); 
 
     let articles = data.articles;
 
