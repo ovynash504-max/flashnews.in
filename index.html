@@ -128,8 +128,7 @@ let currentData = [];
 function show(data){
   currentData = data;
   let box = document.getElementById("newsBox");
-  box.innerHTML="";
-
+  box.innerHTML = "";
   data.forEach((n,i)=>{
     box.innerHTML+=`
     <div class="card" onclick="openNews(${i})">
