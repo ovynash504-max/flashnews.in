@@ -14,7 +14,6 @@ body{
   color:white;
 }
 
-/* HEADER */
 header{
   text-align:center;
   padding:15px;
@@ -23,7 +22,6 @@ header{
   color:#38bdf8;
 }
 
-/* NAV */
 .nav{text-align:center;}
 .nav a{
   margin:8px;
@@ -32,19 +30,13 @@ header{
   font-size:14px;
 }
 
-/* SLIDER */
 .slider{
   background:linear-gradient(90deg,#ff0000,#ff4d4d);
   padding:10px;
   text-align:center;
-  font-size:14px;
 }
 
-/* TOP BOX */
-.top-box{
-  text-align:center;
-  margin:15px;
-}
+.top-box{text-align:center;margin:15px;}
 
 input,button{
   padding:10px;
@@ -61,7 +53,6 @@ button{
   cursor:pointer;
 }
 
-/* GRID */
 .container{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -69,48 +60,25 @@ button{
   padding:15px;
 }
 
-/* CARD */
 .card{
   background:rgba(255,255,255,0.05);
   border-radius:15px;
   overflow:hidden;
   cursor:pointer;
-  transition:0.3s;
 }
-.card:hover{
-  transform:scale(1.03);
-}
+
 .card img{
   width:100%;
   height:140px;
   object-fit:cover;
 }
-.card h3{
-  padding:10px;
-  font-size:15px;
-}
 
-/* FULL */
-.full{
-  padding:15px;
-}
-.full img{
-  width:100%;
-  border-radius:10px;
-}
+.card h3{padding:10px;font-size:15px;}
 
-/* MOBILE */
-@media(max-width:500px){
-  header{font-size:22px;}
-  .card h3{font-size:14px;}
-}
+.full{padding:15px;}
+.full img{width:100%;border-radius:10px;}
 
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:15px;
-  background:#000;
-}
+footer{text-align:center;padding:15px;background:#000;}
 </style>
 </head>
 
@@ -133,10 +101,9 @@ footer{
 <button onclick="selectDate()">Load News</button>
 </div>
 
-
 <div class="container" id="newsBox"></div>
+<div id="fullView" style="display:none;"></div>
 
-<div id="fullView" style="display:none;"></div>  ✅
 <script>
 
 // SLIDER
@@ -157,7 +124,7 @@ setInterval(()=>{
 // STORE
 let currentData = [];
 
-// SHOW
+// SHOW (ONLY ONE FUNCTION)
 function show(data){
   currentData = data;
   let box = document.getElementById("newsBox");
@@ -193,9 +160,8 @@ function goBack(){
   document.getElementById("fullView").style.display = "none";
   document.getElementById("newsBox").style.display = "grid";
 }
-}
 
-// DATE FORMAT FIX
+// DATE FORMAT
 function formatDate(date){
   let d = new Date(date);
   let year = d.getFullYear();
@@ -233,26 +199,15 @@ function loadNewsByDate(date){
     });
   });
 }
-function show(data){
-  let box = document.getElementById("newsBox");
-  box.innerHTML = "";
 
-  data.forEach((n)=>{
-    box.innerHTML += `
-      <div class="card">
-        <img src="${n.img}">
-        <h3>${n.title}</h3>
-      </div>
-    `;
-  });
-}
-  function loadTodayNews(){
+// TODAY AUTO LOAD
+function loadTodayNews(){
   let today = formatDate(new Date());
   document.getElementById("datePicker").value = today;
   loadNewsByDate(today);
-         }
-
 }
+
+// SELECT DATE
 function selectDate(){
   let input = document.getElementById("datePicker").value;
 
@@ -262,8 +217,6 @@ function selectDate(){
   }
 
   loadNewsByDate(input);
-  }
-
 }
 
 // SEARCH
@@ -275,11 +228,12 @@ document.getElementById("search").addEventListener("input",e=>{
   });
 });
 
+// START
 loadTodayNews();
 
 </script>
 
-<footer>© 2026 FlashNews Pro  ~~∆~~ conducted by @OVYNASH ™ </footer>
+<footer>© 2026 FlashNews Pro ~~∆~~ by OVYNASH</footer>
 
 </body>
 </html>
