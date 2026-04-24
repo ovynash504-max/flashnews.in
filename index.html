@@ -241,13 +241,18 @@ function loadTodayNews(){
 
 }
 function selectDate(){
-  let date = document.getElementById("datePicker").value;
-  if(!date){
+  let input = document.getElementById("datePicker").value;
+
+  if(!input){
     alert("Select date first");
     return;
   }
-  loadNewsByDate(date);
-}
+
+  let parts = input.split("/");
+  let fixed = parts[2] + "-" + parts[1] + "-" + parts[0];
+
+  loadNewsByDate(fixed);
+  }
 
 }
 
