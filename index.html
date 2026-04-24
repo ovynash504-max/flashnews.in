@@ -195,7 +195,11 @@ document.getElementById("newsBox").innerHTML = "⏳ Loading news...";
       "<p style='text-align:center;color:orange'>⚠ Showing previous news</p>";
     })
     .catch(()=>{
-      document.getElementById("newsBox").innerHTML="❌ No news available";
+      document.getElementById("newsBox").innerHTML = `
+<div style="text-align:center;padding:20px">
+  <h2>⚠ No News Found</h2>
+  <p>Check your internet or try another date</p>
+</div>`;
     });
   });
 }
