@@ -6,78 +6,60 @@
 <title>Flash News Pro</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #111;
-    color: #fff;
+body{
+    margin:0;
+    font-family:Arial;
+    background:#111;
+    color:white;
 }
-
-header {
-    background: #ff3b3b;
-    padding: 15px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+header{
+    background:red;
+    padding:15px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
 }
-
-#newsBox {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 15px;
-    padding: 15px;
+#newsBox{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:10px;
+    padding:10px;
 }
-
-.card {
-    background: #1e1e1e;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.3s;
+.card{
+    background:#222;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
 }
-.card:hover {
-    transform: scale(1.05);
+.card img{
+    width:100%;
+    border-radius:10px;
 }
-
-.card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+#fullView{
+    display:none;
+    padding:10px;
 }
-
-.card h3 {
-    padding: 10px;
-    font-size: 16px;
-}
-
-#fullView {
-    display: none;
-    padding: 20px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background: red;
-    color: white;
-    margin-bottom: 10px;
-    cursor: pointer;
+button{
+    padding:10px;
+    border:none;
+    background:red;
+    color:white;
+    border-radius:5px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <header>🔥 Flash News Pro</header>
 
-<div id="newsBox">Loading news...</div>
+<div id="newsBox">⏳ Loading...</div>
 <div id="fullView"></div>
 
 <script>
 
 let currentData = [];
 
-// SHOW NEWS
 function show(data){
     currentData = data;
     let box = document.getElementById("newsBox");
@@ -92,57 +74,53 @@ function show(data){
     });
 }
 
-// OPEN FULL NEWS
 function openNews(i){
     let n = currentData[i];
 
-    document.getElementById("newsBox").style.display = "none";
+    document.getElementById("newsBox").style.display="none";
     let full = document.getElementById("fullView");
-    full.style.display = "block";
+    full.style.display="block";
 
     full.innerHTML = `
     <button onclick="goBack()">⬅ Back</button>
     <h2>${n.title}</h2>
-    <img src="${n.img}" style="width:100%;max-height:300px;object-fit:cover;">
+    <img src="${n.img}" style="width:100%">
     <p>${n.full}</p>
     `;
 }
 
-// BACK
 function goBack(){
-    document.getElementById("fullView").style.display = "none";
-    document.getElementById("newsBox").style.display = "grid";
+    document.getElementById("fullView").style.display="none";
+    document.getElementById("newsBox").style.display="grid";
 }
 
-// LOAD NEWS
+
+// 🔥 LOAD NEWS (FIXED)
 function loadNews(){
 
-document.getElementById("newsBox").innerHTML = "⏳ Loading...";
+document.getElementById("newsBox").innerHTML="⏳ Loading...";
 
-// CORS FIX (important)
 fetch("https://api.allorigins.win/raw?url=https://gnews.io/api/v4/top-headlines?country=in&lang=en&apikey=cdd8963cca2514a2bd516fa75bb6baaf")
-
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
     let articles = data.articles;
 
-    let formatted = articles.map(n => ({
-        title: n.title,
-        img: n.image || "https://via.placeholder.com/300",
-        full: n.description || "No details available"
+    let formatted = articles.map(n=>({
+        title:n.title,
+        img:n.image || "https://via.placeholder.com/300",
+        full:n.description || "No details available"
     }));
 
     show(formatted);
 
 })
 .catch(()=>{
-    document.getElementById("newsBox").innerHTML = "❌ Failed to load news";
+    document.getElementById("newsBox").innerHTML="❌ Failed to load news";
 });
 
 }
 
-// START
 loadNews();
 
 </script>
