@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<style>
+body{font-family:Arial;background:#020617;color:white;text-align:center}
+input,textarea,button{margin:10px;padding:10px;width:80%;max-width:400px}
+button{background:#38bdf8;border:none;color:white}
+</style>
+</head>
+<body>
+
+<h2>📰 Add News</h2>
+
+<input id="title" placeholder="News Title"><br>
+<input id="img" placeholder="Image URL"><br>
+<textarea id="full" placeholder="Full News"></textarea><br>
+
+<button onclick="addNews()">Add News</button>
+
+<script>
+function addNews(){
+ let news={
+  title:document.getElementById("title").value,
+  img:document.getElementById("img").value,
+  full:document.getElementById("full").value
+ };
+
+ let data=JSON.parse(localStorage.getItem("news")||"[]");
+ data.unshift(news);
+
+ localStorage.setItem("news",JSON.stringify(data));
+
+ alert("News Added! Copy JSON and update GitHub");
+ console.log(JSON.stringify(data,null,2));
+}
+</script>
+
+</body>
+</html>
