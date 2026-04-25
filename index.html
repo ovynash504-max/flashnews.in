@@ -234,6 +234,40 @@ loadTodayNews();
 </script>
 
 <footer>© 2026 FlashNews Pro ~ conductedby @OVYNASH </footer>
+<div style="position:fixed;bottom:10px;right:10px;width:260px;background:#111;padding:10px;border-radius:10px;">
+  <div id="chatBox" style="height:150px;overflow:auto;font-size:13px;"></div>
+  <input id="msg" placeholder="Type message..." style="width:100%;padding:6px;margin-top:5px;">
+  <button onclick="sendMsg()" style="width:100%;margin-top:5px;">Send</button>
+</div>
 
+<script>
+function sendMsg(){
+  let input = document.getElementById("msg").value.toLowerCase();
+  let box = document.getElementById("chatBox");
+
+  box.innerHTML += "<p>👤 "+input+"</p>";
+
+  let reply = "Sorry, samajh nahi aaya 😅";
+
+  if(input.includes("news"))
+    reply = "👉 Latest news dekhne ke liye home page scroll karo 🔥";
+
+  else if(input.includes("hello") || input.includes("hi"))
+    reply = "👋 Hello! Welcome to FlashNews Pro";
+
+  else if(input.includes("sports"))
+    reply = "🏏 Sports news ke liye upar scroll karo";
+
+  else if(input.includes("tech"))
+    reply = "🤖 Tech news daily update hota hai yaha";
+
+  else if(input.includes("contact"))
+    reply = "📞 Contact page pe jao info milega";
+
+  box.innerHTML += "<p>🤖 "+reply+"</p>";
+
+  document.getElementById("msg").value="";
+}
+</script>
 </body>
 </html>
