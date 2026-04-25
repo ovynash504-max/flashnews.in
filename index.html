@@ -77,6 +77,71 @@ button{
 .full{
   padding:15px;
 }
+/* 🔥 APP HEADER */
+.app-header{
+  display:flex;
+  align-items:center;
+  padding:12px 16px;
+  background:linear-gradient(135deg,#020617,#0f172a);
+}
+
+/* 🔥 LOGO BOX */
+.app-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* 🔥 ICON (ANIMATED + MOVABLE) */
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#38bdf8,#6366f1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:22px;
+
+  /* 🔥 ANIMATIONS */
+  animation: glow 2s infinite, move 3s infinite;
+}
+
+/* 🔥 TEXT */
+.title{
+  font-size:17px;
+  font-weight:bold;
+  color:white;
+}
+
+.sub{
+  font-size:12px;
+  color:#38bdf8;
+}
+
+/* 🔥 GLOW EFFECT */
+@keyframes glow{
+  0%{
+    transform:scale(1);
+    box-shadow:0 0 10px #38bdf8;
+  }
+  50%{
+    transform:scale(1.1);
+    box-shadow:0 0 25px #6366f1;
+  }
+  100%{
+    transform:scale(1);
+    box-shadow:0 0 10px #38bdf8;
+  }
+}
+
+/* 🔥 MOVE LEFT-RIGHT */
+@keyframes move{
+  0%{transform:translateX(0);}
+  50%{transform:translateX(12px);}
+  100%{transform:translateX(0);}
+}
 </style>
 </head>
 
