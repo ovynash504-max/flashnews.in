@@ -257,10 +257,19 @@ loadTodayNews();
 </script>
 
 <footer>© 2026 FlashNews Pro ~ conductedby @OVYNASH </footer>
-<div style="position:fixed;bottom:10px;right:10px;width:260px;background:#111;padding:10px;border-radius:10px;">
-  <div id="chatBox" style="height:150px;overflow:auto;font-size:13px;"></div>
-  <input id="msg" placeholder="Type message..." style="width:100%;padding:6px;margin-top:5px;">
-  <button onclick="sendMsg()" style="width:100%;margin-top:5px;">Send</button>
+<!-- CHAT BUTTON -->
+<div onclick="toggleChat()" style="position:fixed;bottom:20px;right:20px;background:#0ea5e9;color:white;padding:12px;border-radius:50%;cursor:pointer;">
+💬
+</div>
+
+<!-- CHAT BOX -->
+<div id="chatBox" style="position:fixed;bottom:80px;right:20px;width:250px;height:300px;background:#111;color:white;display:none;border-radius:10px;padding:10px;">
+
+<div id="chatBody" style="height:180px;overflow:auto;"></div>
+
+<input id="userMsg" placeholder="Type message..." style="width:100%;margin-top:5px;padding:5px;">
+<button onclick="sendMsg()" style="width:100%;margin-top:5px;">Send</button>
+
 </div>
 
 <script>
