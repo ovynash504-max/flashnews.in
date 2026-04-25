@@ -1,65 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<header style="text-align:center;padding:15px;background:#000;">
+<title>FlashNews Pro</title>
 
-<style>
-.logo-text{
-  font-size:26px;
-  font-weight:bold;
-  background: linear-gradient(90deg,#38bdf8,#0ea5e9,#22c55e,#38bdf8);
-  background-size: 300%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: shine 4s linear infinite;
-}
-
-@keyframes shine {
-  0% {background-position: 0%;}
-  100% {background-position: 300%;}
-}
-</style>
-
-<div class="logo-text">
-⚡ OVYNASH FLASH NEWS 🚀
-</div>
-
-</header>
-
-<meta name="description" content="Latest India and Tech News daily.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  font-family:'Poppins',Arial;
-  background: linear-gradient(135deg,#020617,#0f172a,#020617);
+  font-family:Arial;
+  background:#020617;
   color:white;
 }
 
 header{
   text-align:center;
   padding:15px;
-  font-size:28px;
-  font-weight:bold;
+  background:#000;
   color:#38bdf8;
+  font-size:22px;
 }
 
-.nav{text-align:center;}
+.nav{
+  text-align:center;
+}
 .nav a{
   margin:8px;
   color:#38bdf8;
   text-decoration:none;
-  font-size:14px;
 }
 
 .slider{
-  background:linear-gradient(90deg,#ff0000,#ff4d4d);
+  background:red;
   padding:10px;
   text-align:center;
 }
 
-.top-box{text-align:center;margin:15px;}
+.top-box{
+  text-align:center;
+  margin:15px;
+}
 
 input,button{
   padding:10px;
@@ -71,9 +51,8 @@ input,button{
 }
 
 button{
-  background:linear-gradient(45deg,#38bdf8,#0ea5e9);
+  background:#38bdf8;
   color:white;
-  cursor:pointer;
 }
 
 .container{
@@ -85,9 +64,8 @@ button{
 
 .card{
   background:rgba(255,255,255,0.05);
-  border-radius:15px;
+  border-radius:10px;
   overflow:hidden;
-  cursor:pointer;
 }
 
 .card img{
@@ -96,18 +74,15 @@ button{
   object-fit:cover;
 }
 
-.card h3{padding:10px;font-size:15px;}
-
-.full{padding:15px;}
-.full img{width:100%;border-radius:10px;}
-
-footer{text-align:center;padding:15px;background:#000;}
+.full{
+  padding:15px;
+}
 </style>
 </head>
 
 <body>
 
-<header>FlashNews Pro 🚀</header>
+<header>⚡ OVYNASH FLASH NEWS 🚀</header>
 
 <div class="nav">
 <a href="index.html">Home</a>
@@ -116,176 +91,130 @@ footer{text-align:center;padding:15px;background:#000;}
 <a href="contact.html">Contact</a>
 </div>
 
-<div class="slider" id="slideText">🚨 Breaking News...</div>
+<div class="slider" id="slideText">Breaking News...</div>
 
 <div class="top-box">
-<input type="text" id="search" placeholder="🔍 Search news..."><br>
+<input type="text" id="search" placeholder="Search news..."><br>
 <input type="date" id="datePicker">
 <button onclick="selectDate()">Load News</button>
 </div>
 
 <div class="container" id="newsBox"></div>
-<div id="fullView" style="display:none;"></div>
+<div id="fullView" style="display:none"></div>
 
 <script>
 
-// SLIDER
+// BREAKING NEWS
 const breakingNews = [
-"🔥 India Heatwave Alert",
-"🚀 ISRO Satellite Launch",
-"📈 Stock Market Rise",
-"🤖 AI Jobs Increase",
-"🌧️ Rain Warning"
+"India Heatwave Alert",
+"ISRO Launch",
+"Stock Market Rise",
+"AI Jobs Increase"
 ];
 
-let bIndex = 0;
+let i=0;
 setInterval(()=>{
-  document.getElementById("slideText").innerText = breakingNews[bIndex];
-  bIndex = (bIndex+1)%breakingNews.length;
+document.getElementById("slideText").innerText = breakingNews[i];
+i=(i+1)%breakingNews.length;
 },3000);
 
 // STORE
-let currentData = [];
+let currentData=[];
 
-// SHOW (ONLY ONE FUNCTION)
+// SHOW
 function show(data){
-  currentData = data;
-  let box = document.getElementById("newsBox");
-  box.innerHTML="";
+currentData=data;
+let box=document.getElementById("newsBox");
+box.innerHTML="";
 
-  data.forEach((n,i)=>{
-    box.innerHTML+=`
-    <div class="card" onclick="openNews(${i})">
-      <img src="${n.img}" onerror="this.onerror=null; this.src='https://picsum.photos/400/250';">
-      <h3>${n.title}</h3>
-    </div>`;
-  });
+data.forEach((n,i)=>{
+box.innerHTML+=`
+<div class="card" onclick="openNews(${i})">
+<img src="${n.img}">
+<h3>${n.title}</h3>
+</div>`;
+});
 }
 
-// FULL NEWS
+// OPEN NEWS
 function openNews(i){
-  let n = currentData[i];
+let n=currentData[i];
+document.getElementById("newsBox").style.display="none";
+document.getElementById("fullView").style.display="block";
 
-  document.getElementById("fullView").style.display = "block";
-  document.getElementById("newsBox").style.display = "none";
-
-  document.getElementById("fullView").innerHTML = `
-    <div class="full">
-      <button onclick="goBack()">⬅ Back</button>
-      <h1>${n.title}</h1>
-       <img src="${n.img}" onerror="this.onerror=null; this.src='https://picsum.photos/400/250';">
-      <p>${n.full}</p>
-    </div>
-  `;
+document.getElementById("fullView").innerHTML=`
+<div class="full">
+<button onclick="goBack()">⬅ Back</button>
+<h2>${n.title}</h2>
+<img src="${n.img}" style="width:100%">
+<p>${n.full}</p>
+</div>`;
 }
 
+// BACK
 function goBack(){
-  document.getElementById("fullView").style.display = "none";
-  document.getElementById("newsBox").style.display = "grid";
+document.getElementById("fullView").style.display="none";
+document.getElementById("newsBox").style.display="grid";
 }
 
 // DATE FORMAT
 function formatDate(date){
-  let d = new Date(date);
-  let year = d.getFullYear();
-  let month = String(d.getMonth()+1).padStart(2,'0');
-  let day = String(d.getDate()).padStart(2,'0');
-  return `${year}-${month}-${day}`;
+let d=new Date(date);
+let y=d.getFullYear();
+let m=String(d.getMonth()+1).padStart(2,'0');
+let da=String(d.getDate()).padStart(2,'0');
+return `${y}-${m}-${da}`;
 }
 
-// LOAD NEWS
+// 🔥🔥 MAIN FIX HERE
 function loadNewsByDate(date){
 
-  let fixedDate = formatDate(date);
+let fixedDate=formatDate(date);
 
-  fetch("news/" + fixedDate + ".json?nocache=" + new Date().getTime())
-  .then(res => {
-    if(!res.ok) throw "no";
-    return res.json();
-  })
-  .then(data => show(data))
-  .catch(()=>{
+fetch("./news/"+fixedDate+".json?nocache="+new Date().getTime())
+.then(res=>{
+if(!res.ok) throw "error";
+return res.json();
+})
+.then(data=>show(data))
 
-    let d = new Date(date);
-    d.setDate(d.getDate()-1);
-    let y = formatDate(d);
+.catch(()=>{
+document.getElementById("newsBox").innerHTML="❌ No news available";
+});
 
-    fetch("news/" + y + ".json?nocache=" + new Date().getTime())
-    .then(res=>res.json())
-    .then(data=>{
-      show(data);
-      document.getElementById("newsBox").innerHTML +=
-      "<p style='text-align:center;color:orange'>⚠ Showing previous news</p>";
-    })
-    .catch(()=>{
-      document.getElementById("newsBox").innerHTML="❌ No news available";
-    });
-  });
 }
 
 // TODAY AUTO LOAD
 function loadTodayNews(){
-  let today = formatDate(new Date());
-  document.getElementById("datePicker").value = today;
-  loadNewsByDate(today);
+let today=formatDate(new Date());
+document.getElementById("datePicker").value=today;
+loadNewsByDate(today);
 }
 
 // SELECT DATE
 function selectDate(){
-  let input = document.getElementById("datePicker").value;
-
-  if(!input){
-    alert("Select date first");
-    return;
-  }
-
-  loadNewsByDate(input);
+let input=document.getElementById("datePicker").value;
+if(!input){
+alert("Select date first");
+return;
+}
+loadNewsByDate(input);
 }
 
 // SEARCH
 document.getElementById("search").addEventListener("input",e=>{
-  let val = e.target.value.toLowerCase();
-  let cards = document.querySelectorAll(".card");
-  cards.forEach(c=>{
-    c.style.display = c.innerText.toLowerCase().includes(val) ? "block":"none";
-  });
+let val=e.target.value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(c=>{
+c.style.display=c.innerText.toLowerCase().includes(val)?"block":"none";
+});
 });
 
 // START
-
-function sendMsg(){
-  let input = document.getElementById("userMsg");
-  let msg = input.value.toLowerCase();
-
-  if(!msg) return;
-
-  let body = document.getElementById("chatBody");
-
-  // USER MESSAGE
-  body.innerHTML += "<p style='text-align:right;color:#38bdf8'>👤 "+msg+"</p>";
-
-  // REPLY LOGIC
-  let reply = "😅 sorry, mai kebal apko news ke bare mai bol sakta hu like sport🎖,tech🤖,study📚 other wise contact to Mr.@OVYNASH sir 📞
-    or click contact page";
-
-  if(msg.includes("news")) reply = "📰 Latest news upar available hai";
-  else if(msg.includes("sports")) reply = "🏏 Sports update check karo";
-  else if(msg.includes("tech")) reply = "🤖 AI aur tech fast grow kar raha hai";
-  else if(msg.includes("hello")) reply = "👋 Hello bhai!";
-  else if(msg.includes("study")) reply = "📚 Daily study karo success milega";
-
-  // BOT DELAY (real feel)
-  setTimeout(()=>{
-    body.innerHTML += "<p style='color:#22c55e'>🤖 "+reply+"</p>";
-
-    // AUTO SCROLL
-    body.scrollTop = body.scrollHeight;
-
-  },500);
-
-  input.value="";
-}
 loadTodayNews();
+
 </script>
+
 </body>
 </html>
