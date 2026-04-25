@@ -150,7 +150,7 @@ function openNews(i){
     <div class="full">
       <button onclick="goBack()">⬅ Back</button>
       <h1>${n.title}</h1>
-      <img src="${n.img}">
+       <img src="${n.img}" onerror="this.onerror=null; this.src='https://picsum.photos/400/250';">
       <p>${n.full}</p>
     </div>
   `;
