@@ -133,7 +133,7 @@ function show(data){
   data.forEach((n,i)=>{
     box.innerHTML+=`
     <div class="card" onclick="openNews(${i})">
-      <img src="${n.img}">
+      <img src="${n.img}" onerror="this.onerror=null; this.src='https://picsum.photos/400/250';">
       <h3>${n.title}</h3>
     </div>`;
   });
