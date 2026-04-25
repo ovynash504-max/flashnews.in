@@ -220,6 +220,22 @@ body{
   transform:translateY(-8px);
   box-shadow:0 10px 25px rgba(0,0,0,0.5);
 }
+/* 🔄 LOADING SPINNER */
+.loader{
+  display:none;
+  margin:20px auto;
+  border:5px solid #1e293b;
+  border-top:5px solid #38bdf8;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 
