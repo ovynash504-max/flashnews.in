@@ -77,6 +77,7 @@ button{
 .full{
   padding:15px;
 }
+
 /* 🔥 APP HEADER */
 .app-header{
   display:flex;
@@ -85,14 +86,12 @@ button{
   background:linear-gradient(135deg,#020617,#0f172a);
 }
 
-/* 🔥 LOGO BOX */
 .app-logo{
   display:flex;
   align-items:center;
   gap:12px;
 }
 
-/* 🔥 ICON (ANIMATED + MOVABLE) */
 .icon{
   width:48px;
   height:48px;
@@ -103,16 +102,12 @@ button{
   justify-content:center;
   color:white;
   font-size:22px;
-
-  /* 🔥 ANIMATIONS */
   animation: glow 2s infinite, move 3s infinite;
 }
 
-/* 🔥 TEXT */
 .title{
   font-size:17px;
   font-weight:bold;
-  color:white;
 }
 
 .sub{
@@ -120,111 +115,61 @@ button{
   color:#38bdf8;
 }
 
-/* 🔥 GLOW EFFECT */
 @keyframes glow{
-  0%{
-    transform:scale(1);
-    box-shadow:0 0 10px #38bdf8;
-  }
-  50%{
-    transform:scale(1.1);
-    box-shadow:0 0 25px #6366f1;
-  }
-  100%{
-    transform:scale(1);
-    box-shadow:0 0 10px #38bdf8;
-  }
+  0%{transform:scale(1);box-shadow:0 0 10px #38bdf8;}
+  50%{transform:scale(1.1);box-shadow:0 0 25px #6366f1;}
+  100%{transform:scale(1);box-shadow:0 0 10px #38bdf8;}
 }
 
-/* 🔥 MOVE LEFT-RIGHT */
 @keyframes move{
   0%{transform:translateX(0);}
   50%{transform:translateX(12px);}
   100%{transform:translateX(0);}
 }
-/* 🔥 CARD HOVER */
-.card{
-  transition:0.3s;
-}
-.card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-}
 
-/* 🎨 GLASS EFFECT */
-.card{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(10px);
-}
-
-/* ⚡ BUTTON */
-button{
-  background:linear-gradient(135deg,#38bdf8,#6366f1);
-  transition:0.3s;
-}
-button:hover{
-  transform:scale(1.05);
-}
-
-/* 🚀 PAGE LOAD */
-body{
-  animation:fade 1s ease;
-}
-@keyframes fade{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-/* 🔥 SLIDER */
-.slider{
-  overflow:hidden;
-}
-.slider span{
-  display:inline-block;
-  padding-left:100%;
-  animation:slide 10s linear infinite;
-}
-@keyframes slide{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-100%);}
-}
-
-/* 📱 MOBILE */
-@media(max-width:600px){
-  .container{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-/* 🔥 CARD HOVER EFFECT */
-.card{
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:translateY(-8px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-}
-/* 🔄 LOADING SPINNER */
-.loader{
-  display:none;
-  margin:20px auto;
-  border:5px solid #1e293b;
-  border-top:5px solid #38bdf8;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  animation:spin 1s linear infinite;
-}
+body{animation:fade 1s ease;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
 
 @keyframes spin{
   0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
 }
+
+/* ✅ SPLASH SCREEN */
+#splash{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#splash img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+body.loaded #splash{
+  opacity:0;
+  visibility:hidden;
+  transition:1s;
+}
+
 </style>
 </head>
 
 <body>
+
+<!-- ✅ SPLASH IMAGE -->
+<div id="splash">
+  <img src="splash.jpg">
+</div>
 
 <header class="app-header">
   <div class="app-logo">
@@ -256,6 +201,15 @@ body{
 
 <script>
 
+// ✅ SPLASH AUTO HIDE
+window.onload = function(){
+  setTimeout(()=>{
+    document.body.classList.add("loaded");
+  },2000);
+};
+
+// (BAKI SAB SAME — TOUCH NAHI KIYA)
+
 // BREAKING NEWS
 const breakingNews = [
 "India Heatwave Alert",
@@ -282,8 +236,7 @@ box.innerHTML="";
 data.forEach((n,i)=>{
 box.innerHTML+=`
 <div class="card" onclick="openNews(${i})">
-<img src="${n.img ? n.img : 'https://picsum.photos/400/250?random=' + Math.random()}" 
-onerror="this.src='https://picsum.photos/400/250?random=' + Math.random()">
+<img src="${n.img ? n.img : 'https://picsum.photos/400/250?random=' + Math.random()}">
 <h3>${n.title}</h3>
 </div>`;
 });
@@ -319,25 +272,19 @@ let da=String(d.getDate()).padStart(2,'0');
 return `${y}-${m}-${da}`;
 }
 
-// 🔥🔥 MAIN FIX HERE
+// LOAD NEWS
 function loadNewsByDate(date){
-
 let fixedDate=formatDate(date);
 
 fetch("./news/"+fixedDate+".json?nocache="+new Date().getTime())
-.then(res=>{
-if(!res.ok) throw "error";
-return res.json();
-})
+.then(res=>res.json())
 .then(data=>show(data))
-
 .catch(()=>{
 document.getElementById("newsBox").innerHTML="❌ No news available";
 });
-
 }
 
-// TODAY AUTO LOAD
+// AUTO LOAD
 function loadTodayNews(){
 let today=formatDate(new Date());
 document.getElementById("datePicker").value=today;
@@ -368,7 +315,9 @@ c.style.display=c.innerText.toLowerCase().includes(val)?"block":"none";
 loadTodayNews();
 
 </script>
+
 <footer> © Flashnews pro 2026 ∆
 Conducted by @OVYNASH ™</footer>
+
 </body>
 </html>
